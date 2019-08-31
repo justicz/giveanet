@@ -35,6 +35,7 @@ const appAddress = "0.0.0.0:3021"
 const wsAddress = "0.0.0.0:3024"
 const publicTokenLenBytes = 16
 const internalServerError = "Internal server error"
+const badRequest = "Bad request"
 const referralCookie = "referral"
 const tokenLength = 13
 const maxPageNumber = 1000000
@@ -108,34 +109,39 @@ func (rctx *RequestContext) sendHandler(w http.ResponseWriter, r *http.Request) 
 	})
 }
 
-func (rctx *RequestContext) allHandler(w http.ResponseWriter, r *http.Request) {
+func (rctx *RequestContext) parsePageNumber(r *http.Request, optional bool) (page uint64, err error) {
 	// Convert page number to integer & validate (if passed)
 	pageParam, ok := mux.Vars(r)["page"]
 	if ok {
-		page, err := strconv.ParseUint(pageParam, 10, 64)
+		page, err = strconv.ParseUint(pageParam, 10, 64)
 		if err != nil || page == 0 || page > maxPageNumber {
-			w.WriteHeader(http.StatusBadRequest)
-			rctx.template.ExecuteTemplate(w, "error", ErrorPageData{http.StatusBadRequest})
-			return
+			return page, fmt.Errorf("invalid page number")
 		}
+		return page, nil
+	} else if !optional {
+		return page, fmt.Errorf("missing page number")
 	}
+	return page, nil
+}
 
+func (rctx *RequestContext) allHandler(w http.ResponseWriter, r *http.Request) {
+	_, err := rctx.parsePageNumber(r, true)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		rctx.template.ExecuteTemplate(w, "error", ErrorPageData{http.StatusBadRequest})
+		return
+	}
 	w.WriteHeader(http.StatusOK)
 	rctx.template.ExecuteTemplate(w, "all", nil)
 }
 
 func (rctx *RequestContext) leaderboardHandler(w http.ResponseWriter, r *http.Request) {
-	// Convert page number to integer & validate (if passed)
-	pageParam, ok := mux.Vars(r)["page"]
-	if ok {
-		page, err := strconv.ParseUint(pageParam, 10, 64)
-		if err != nil || page == 0 || page > maxPageNumber {
-			w.WriteHeader(http.StatusBadRequest)
-			rctx.template.ExecuteTemplate(w, "error", ErrorPageData{http.StatusBadRequest})
-			return
-		}
+	_, err := rctx.parsePageNumber(r, true)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		rctx.template.ExecuteTemplate(w, "error", ErrorPageData{http.StatusBadRequest})
+		return
 	}
-
 	w.WriteHeader(http.StatusOK)
 	rctx.template.ExecuteTemplate(w, "leaderboard", nil)
 }
@@ -147,11 +153,9 @@ func (rctx *RequestContext) commonPageHandler(w http.ResponseWriter, r *http.Req
 	w.Header().Set("Content-Type", "application/json")
 
 	// Convert page number to integer & validate
-	var page uint64
-	page, err := strconv.ParseUint(mux.Vars(r)["page"], 10, 64)
-	if err != nil || page == 0 || page > maxPageNumber {
-		w.WriteHeader(http.StatusBadRequest)
-		rctx.template.ExecuteTemplate(w, "error", ErrorPageData{http.StatusBadRequest})
+	page, err := rctx.parsePageNumber(r, false)
+	if err != nil {
+		badRequestJSONResponse(w)
 		return
 	}
 
@@ -242,6 +246,15 @@ func internalServerErrorJSONResponse(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusInternalServerError)
 	resp := common.PayFormResponse{
 		Errors: []string{internalServerError},
+	}
+	json.NewEncoder(w).Encode(resp)
+}
+
+func badRequestJSONResponse(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusBadRequest)
+	resp := common.PayFormResponse{
+		Errors: []string{badRequest},
 	}
 	json.NewEncoder(w).Encode(resp)
 }
