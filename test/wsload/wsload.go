@@ -20,22 +20,21 @@ func main() {
 			defer func() { done <- true }()
 			ws, err := websocket.Dial(url, "", origin)
 			if err != nil {
-					fmt.Printf("err dialing: %v", err)
-					return
+				fmt.Printf("err dialing: %v\n", err)
+				return
 			}
 			var msg = make([]byte, bufsz)
 			var n int
 
 			for {
 				if n, err = ws.Read(msg); err != nil {
-					fmt.Printf("err, closing: %s", err)
+					fmt.Printf("err, closing: %v\n", err)
 					return
 				}
 				fmt.Printf("%d received: %d bytes\n", i, n)
 			}
 		}(i)
 	}
-
 
 	for i := 0; i < numconns; i++ {
 		<-done

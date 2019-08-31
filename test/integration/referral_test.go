@@ -48,7 +48,7 @@ func TestReferralsPaid(t *testing.T) {
 		form.Set("netslider", fmt.Sprintf("%d", numNets))
 		form.Set("netnumbox", "76")
 		form.Set("netquantitytype", "reg")
-		form.Set("displayname", fmt.Sprintf("%d place", i + 1))
+		form.Set("displayname", fmt.Sprintf("%d place", i+1))
 		form.Set("linktype", "twitter")
 		form.Set("twittername", "foobar4u")
 		form.Set("msg", "baz biz")
