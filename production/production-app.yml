@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  millionnets-app:
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+    volumes:
+      - app-static:/app/app/static
+    ports:
+      - "3024:3024"
+    expose:
+      - "3021"
+    env_file:
+      - production.app.env
+  millionnets-app-proxy:
+    build: ./app-proxy
+    volumes:
+      - app-static:/var/www/static
+    ports:
+      - "80:80"
+    depends_on:
+      - "millionnets-app"
+volumes:
+  app-static:

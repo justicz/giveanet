@@ -1,0 +1,56 @@
+scriptdir: ./scripts
+
+scriptnames:
+  common: ./common.js
+  messagerow: ./messagerow.js
+  retrypayment: ./retrypayment.js
+  home: ./home.js
+  send: ./send.js
+  validate: ./validate.js
+  fetchmessage: ./fetchmessage.js
+  draw: ./draw.js
+  all: ./all.js
+  leaderboard: ./leaderboard.js
+  pager: ./pager.js
+  odometer: ./dep/odometer.js
+  colorpicker: ./dep/color-picker.js
+
+pages:
+  home:
+    - '/^\/$/'
+  send:
+    - '/^\/send$/'
+  all:
+    - '/^\/all$/'
+    - '/^\/all\/[0-9]+$/'
+  leaderboard:
+    - '/^\/leaderboard$/'
+    - '/^\/leaderboard\/[0-9]+$/'
+  card:
+    - '/^\/card\/[A-Z2-7]{13}$/'
+  leaving:
+    - '/^\/leaving\/[A-Z2-7]{13}$/'
+
+includes:
+  home:
+    - odometer
+    - messagerow
+    - home
+  card:
+    - messagerow
+    - fetchmessage
+    - retrypayment
+  send:
+    - colorpicker
+    - draw
+    - validate
+    - messagerow
+    - send
+  all:
+    - messagerow
+    - all
+    - pager
+  leaderboard:
+    - messagerow
+    - leaderboard
+    - pager

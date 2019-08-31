@@ -1,0 +1,99 @@
+{{define "home"}}
+<html>
+  <head>
+    {{template "header.tmpl"}}
+    <link rel="stylesheet" href="/static/style/dep/odometer.css?v=CACHEBUSTER">
+    <style>
+      .queuecontent {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper" id="wrapper" data-ws-origin="{{.WSOrigin}}">
+      {{template "nav.tmpl"}}
+
+      <div class="goaltypewrapper"><h2 id="goaltype">{{.InitialGoal}}</h2></div>
+
+      <div class="counter">
+        <h1 id="counter" class="odometer">{{.InitialNines}}</h1>
+        <h2>mosquito nets to go</h2>
+        <noscript><h2>Javascript is required :(</h2></noscript>
+      </div>
+
+      <div class="buttons">
+        <a href="/send" class="button leftbutton homepagebutton">Send a $2 net</a>
+        <a href="#whatisthis" class="button rightbutton homepagebutton">What is this?</a>
+      </div>
+
+      <div class="columns">
+        <div class="timelinesplit leftcol">
+          <h3>Latest Messages</h3>
+          <h4>Send a net to add your message</h4>
+          <div class="scrolltablewrap messageswrap">
+            <table class="scrolltable messages fadein">
+              <colgroup>
+                <col class="iconcol" />
+                <col class="namecol" />
+                <col class="quotecol" />
+              </colgroup>
+              <tbody id="msgtable">
+                <tr class="noanimate"><td colspan="3">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="seeall"><span><a href="/all">View all</a></span></div>
+        </div>
+        <div class="timelinesplit rightcol">
+          <h3>Leaderboard <i class="emoji fire"></i></h3>
+          <h4>Level up when others donate <a href="/leaderboard">using your link</a></h4>
+          <div class="leaderboardtitlewrap">
+            <table class="scrolltable leaderboard">
+              <colgroup>
+                <col class="lrankcol" />
+                <col class="lnamecol" />
+                <col class="lscorecol" />
+              </colgroup>
+              <tbody>
+                <tr class="leaderheadrow"><td>Rank</td><td>Name</td><td>Net Score <a href="/leaderboard">[?]</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="scrolltablewrap leaderboardwrap">
+            <table class="scrolltable leaderboard">
+              <colgroup>
+                <col class="lrankcol" />
+                <col class="lnamecol" />
+                <col class="lscorecol" />
+              </colgroup>
+              <tbody id="leaderboardtable">
+                <tr class="noanimate"><td colspan="3">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="seeall"><span><a href="/leaderboard">View all</a></span></div>
+        </div>
+      </div>
+
+      <a name="whatisthis"></a>
+      <div class="explanationsplit">
+        <h3>What is this?</h3>
+      </div>
+      <div class="explanation">
+        <p><i class="emoji wave"></i> Hello! I put this website together to try and send 10,000 mosquito nets to people who need them. I did this because I learned the following:</p>
+        <p class="indented">1. Malaria still kills <a href="https://www.who.int/gho/malaria/epidemic/deaths/en/">more than 430,000 people per year.</a> That's a hard number to comprehend; it's like if three full passenger jets crashed every day.</p>
+        <p class="indented">2. Mosquito nets are <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4820050/">ridiculously effective at preventing malaria,</a> averting millions of infections per year.</p>
+        <p class="indented">3. Nets are really cheap &mdash; $2 buys a net that protects two people from malaria <a href="https://www.givewell.org/international/technical/programs/insecticide-treated-nets/decay-model">for years.</a></p>
+        <p>Despite all of this, the charities actually purchasing and distributing these nets are still bottlenecked by funding!</p>
+        <p>So that's what this site is: a way to easily send a $2 net to someone who needs it. I reached out to the <a href="https://www.againstmalaria.com/">Against Malaria Foundation</a>, a <a href="https://www.givewell.org/charities/amf/all-content">well-known charity</a> that has been distributing mosquito nets and recording data about malaria for years. Working with them, 100% of your donation goes towards buying a net.</p>
+        <h4>Any net you send could prevent a death from malaria. Even one net genuinely helps.</h4>
+      </div>
+      <div class="bottombuttons">
+        <a href="/send" class="button bottombutton homepagebutton">Send a $2 net</a>
+      </div>
+    </div>
+    {{template "footer.tmpl"}}
+    {{template "script.tmpl"}}
+  </body>
+</html>
+{{end}}

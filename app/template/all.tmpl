@@ -1,0 +1,40 @@
+{{define "all"}}
+<html>
+  <head>
+    {{template "header.tmpl"}}
+  </head>
+  <body>
+    <div class="wrapper">
+      {{template "nav.tmpl"}}
+      <div class="allmessagestitles">
+        <h3>All Donations</h3>
+      </div>
+
+      <div class="allmessageswrap">
+        <table class="scrolltable messages">
+	  <colgroup>
+	    <col class="iconcol" />
+	    <col class="namecol" />
+	    <col class="quotecol" />
+	  </colgroup>
+	  <tbody id="msgtable">
+            <tr><td colspan="3">Loading...</td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+	  </tbody>
+	</table>
+      </div>
+      <div class="buttons">
+        <a id="backbutton" class="button pagebutton submissionbutton">Back</a>
+        <a id="nextbutton" class="button pagebutton submissionbutton">Next</a>
+      </div>
+    </div>
+    {{template "footer.tmpl"}}
+    {{template "script.tmpl"}}
+  </body>
+</html>
+{{end}}

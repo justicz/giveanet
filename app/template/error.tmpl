@@ -1,0 +1,16 @@
+{{define "error"}}
+<html>
+  <head>
+    {{template "header.tmpl"}}
+  </head>
+  <body>
+    <div class="wrapper">
+      {{template "nav.tmpl"}}
+      <div class="error">
+        <h1>{{.ErrorCode}}</h1>
+      </div>
+    </div>
+    {{template "footer.tmpl"}}
+  </body>
+</html>
+{{end}}

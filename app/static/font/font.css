@@ -1,0 +1,36 @@
+@font-face {
+	font-family: 'Roboto Slab';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('Roboto Slab Regular'),
+		local('RobotoSlab-Regular'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngMUXZYTXPIvIBgJJSb6ufN5qU.woff2 */
+		url('Roboto_Slab_400.woff2') format('woff2'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngMUXZYTXPIvIBgJJSb6ufN5qM.woff */
+		url('Roboto_Slab_400.woff') format('woff'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngMUXZYTXPIvIBgJJSb6ufN5qE.eot */
+		url('Roboto_Slab_400.eot?#iefix') format('embedded-opentype'),
+		/* from https://fonts.gstatic.com/l/font?kit=BngMUXZYTXPIvIBgJJSb6ufN5qI&skey=a9ad6a4717e923f0&v=v9#RobotoSlab */
+		url('Roboto_Slab_400.svg#RobotoSlab') format('svg'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngMUXZYTXPIvIBgJJSb6ufN5qA.ttf */
+		url('Roboto_Slab_400.ttf') format('truetype');
+}
+@font-face {
+	font-family: 'Roboto Slab';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local('Roboto Slab Bold'),
+		local('RobotoSlab-Bold'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngRUXZYTXPIvIBgJJSb6u92w7CGwR0.woff2 */
+		url('Roboto_Slab_700.woff2') format('woff2'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngRUXZYTXPIvIBgJJSb6u92w7CGwRs.woff */
+		url('Roboto_Slab_700.woff') format('woff'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngRUXZYTXPIvIBgJJSb6u92w7CGwRk.eot */
+		url('Roboto_Slab_700.eot?#iefix') format('embedded-opentype'),
+		/* from https://fonts.gstatic.com/l/font?kit=BngRUXZYTXPIvIBgJJSb6u92w7CGwRo&skey=481cfd96f5185089&v=v9#RobotoSlab */
+		url('Roboto_Slab_700.svg#RobotoSlab') format('svg'),
+		/* from https://fonts.gstatic.com/s/robotoslab/v9/BngRUXZYTXPIvIBgJJSb6u92w7CGwRg.ttf */
+		url('Roboto_Slab_700.ttf') format('truetype');
+}

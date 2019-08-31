@@ -1,0 +1,22 @@
+{{define "leaving"}}
+<html>
+  <head>
+    {{template "header.tmpl"}}
+  </head>
+  <body>
+    <div class="wrapper">
+      {{template "nav.tmpl"}}
+      <div class="linkinterstitial">
+        <h1>Follow link?</h1>
+        <h2>The message you clicked links to the following:</h2>
+        <code>{{.URL}}</code>
+        <h2>How would you like to proceed?</h2>
+        <a href="/" class="button interstitialbutton">Go home</a>
+        <a href="{{.URL}}" class="button interstitialbutton">Follow link</a>
+      </div>
+    </div>
+    {{template "footer.tmpl"}}
+    <script> </script>
+  </body>
+</html>
+{{end}}

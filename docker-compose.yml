@@ -1,0 +1,77 @@
+version: '3.1'
+services:
+  testing:
+    build:
+      context: .
+      dockerfile: docker/testing.Dockerfile
+    depends_on:
+      - "millionnets-app-proxy"
+      - "millionnets-timeline-proxy"
+      - "millionnets-postgres-mndev"
+    environment:
+      - MN_WEBHOOK_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_POSTGRES_URL=postgres://nets:pw@millionnets-postgres-mndev:5432/millionnets?sslmode=disable
+      - MN_CSRF_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_APP_USERNAME=giveanet
+      - MN_APP_PASSWORD=giveanetpw
+  millionnets-app:
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+    ports:
+      - "127.0.0.1:3024:3024"
+    expose:
+      - "3021"
+    depends_on:
+      - "millionnets-redis-mndev"
+      - "millionnets-postgres-mndev"
+    volumes:
+      - app-static:/app/app/static
+    environment:
+      - MN_APP_ORIGIN=http://localhost:3022
+      - MN_WS_ORIGIN=ws://localhost:3024
+      - MN_POSTGRES_URL=postgres://nets:pw@millionnets-postgres-mndev:5432/millionnets?sslmode=disable
+      - MN_REDIS_ADDR=millionnets-redis-mndev:6379
+      - MN_ENVIRONMENT=development
+      - MN_CSRF_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_STRIPE_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_STRIPE_PUBLIC=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_TOKEN_PERM_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  millionnets-app-proxy:
+    build: ./app-proxy
+    ports:
+      - "127.0.0.1:3022:80"
+    volumes:
+      - app-static:/var/www/static
+    depends_on:
+      - "millionnets-app"
+  millionnets-timeline:
+    build:
+      context: .
+      dockerfile: docker/timeline.Dockerfile
+    expose:
+      - "3029"
+    environment:
+      - MN_APP_ORIGIN=http://localhost:3022
+      - MN_WEBHOOK_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_POSTGRES_URL=postgres://nets:pw@millionnets-postgres-mndev:5432/millionnets?sslmode=disable
+      - MN_REDIS_ADDR=millionnets-redis-mndev:6379
+      - MN_ENVIRONMENT=development
+      - MN_STRIPE_ENDPOINT_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+      - MN_STRIPE_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  millionnets-timeline-proxy:
+    build: ./timeline-proxy
+    ports:
+      - "127.0.0.1:3023:80"
+    depends_on:
+      - "millionnets-timeline"
+  millionnets-redis-mndev:
+    image: "redis:5.0-buster"
+  millionnets-postgres-mndev:
+    image: "postgres:11.4"
+    environment:
+      - POSTGRES_DB=millionnets
+      - POSTGRES_USER=nets
+      - POSTGRES_PASSWORD=pw
+volumes:
+  app-static:

@@ -1,0 +1,58 @@
+{{define "leaderboard"}}
+<html>
+  <head>
+    {{template "header.tmpl"}}
+  </head>
+  <body>
+    <div class="wrapper">
+      {{template "nav.tmpl"}}
+      <div class="allleaderboardtitles">
+        <h3>Leaderboard</h3>
+        <p>Your "Net Score" is determined by how many nets you have donated, plus the number of nets donated by anyone you refer, plus the number of nets donated by anyone they refer, and so on.</p>
+        <p>To refer someone, send them the referral link shown on the "thank you" page after <a href="/send">donating a net.</a></p>
+      </div>
+
+      <div class="allleaderboardtitlewrap">
+        <table class="scrolltable leaderboard">
+          <colgroup>
+            <col class="lrankcol" />
+            <col class="lnamecol" />
+            <col class="lscorecol" />
+          </colgroup>
+          <tbody>
+            <tr class="leaderheadrow"><td>Rank</td><td>Name</td><td>Net Score</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="allleaderboardwrap">
+        <table class="scrolltable leaderboard">
+	  <colgroup>
+            <col class="lrankcol" />
+            <col class="lnamecol" />
+            <col class="lscorecol" />
+	  </colgroup>
+	  <tbody id="leaderboardtable">
+            <tr><td colspan="3">Loading...</td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+            <tr><td colspan="3"></td></tr>
+	  </tbody>
+	</table>
+      </div>
+      <div class="buttons">
+        <a id="backbutton" class="button pagebutton submissionbutton">Back</a>
+        <a id="nextbutton" class="button pagebutton submissionbutton">Next</a>
+      </div>
+    </div>
+    {{template "footer.tmpl"}}
+    {{template "script.tmpl"}}
+  </body>
+</html>
+{{end}}

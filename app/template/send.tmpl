@@ -1,0 +1,140 @@
+{{define "send"}}
+<html>
+  <head>
+    {{template "header.tmpl"}}
+    <link rel="stylesheet" href="/static/style/dep/color-picker.css?v=CACHEBUSTER">
+    <link rel="preload" as="image" href="/static/image/finger.png?v=CACHEBUSTER">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/init.js?v=CACHEBUSTER"></script>
+    <style>
+      #alertbox, #pagetwo, #pagethree, #pagefour, #lotsnetsbox {
+          display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      {{template "nav.tmpl"}}
+
+      <div class="sendanet">
+        <h1>Send nets</h1>
+        <h2>Nets cost $2 each and save lives</h2>
+      </div>
+
+      <div class="sendalertbox" id="alertbox"></div>
+
+      <div class="netformwrapper">
+        <form id="netform" action="/pay" method="POST">
+          {{ .csrfField }}
+          <!-- start page one -->
+          <div id="pageone">
+            <div class="q1">
+              <h3 class="q1">1. Would you like to display your name and an optional message on the homepage?</h3>
+              <h4 class="q1">Required to participate in the <a href="/leaderboard">leaderboard</a></h4>
+              <label class="switch">
+                <input id="wantmsgcheckbox" type="checkbox" checked="checked" name="wantmsg">
+                <span class="switchslider"></span>
+                <span class="switchstatus"></span>
+              </label>
+            </div>
+            <div class="q2">
+              <h3 class="q2">2. How many nets would you like to send?</h3>
+              <h4 class="q2">100% of your donation is used to buy nets</h4>
+              <div class="numnetsbox">
+                <div id="regnetsbox">
+                  <h4 id="numnetstext" class="numnetsselected">5 nets - $10</h4>
+                  <input name="netslider" type="range" min="1" max="75" value="5" id="netslider" class="netslider">
+                </div>
+                <div id="lotsnetsbox">
+                  <input name="netnumbox" type="number" value="76" min="1" max="25000" id="netnumfield" class="netnum">
+                  <h4 id="lotsnetstext">nets - $152</h4>
+                  <p id="lotsnetshelptext">To send more than 25,000 nets, please <a href="mailto:contact@giveanet.org">contact us.</a></p>
+                </div>
+                <input type="hidden" id="netquantitytype" name="netquantitytype" value="reg">
+              </div>
+              <h4 class="q2 lotsonets">If you would like to send <span id="morefewer">more than 75 nets</span>, <a id="togglelotsnetsbutton" href="#">click here.</a></h4>
+            </div>
+            <a id="pageonenextbutton" class="button nextbutton submissionbutton">Next</a>
+          </div>
+          <!-- end page one -->
+          <!-- start page two -->
+          <div id="pagetwo">
+            <div class="q3">
+              <h3>3. What name should we show on the homepage? (optional)</h3>
+              <input id="displaynameinput" type="text" placeholder="Display name" class="displaynametxt" name="displayname" maxlength="24">
+            </div>
+            <div class="q4">
+              <h3 class="q4">4. Where should we link your name?</h3>
+              <label class="radiocontainer">
+                <input id="nowhereradio" class="linktype" type="radio" name="linktype" value="nowhere" checked="checked">
+                <span class="checkbox"></span>
+                <span class="linktypet">Nowhere</span>
+              </label>
+              <label class="radiocontainer">
+                <input id="twitterradio" class="linktype" type="radio" name="linktype" value="twitter">
+                <span class="checkbox"></span>
+                <span class="linktypet">Twitter</span>
+                <input disabled type="text" placeholder="Username" class="multchoicetxt" name="twittername" maxlength="50">
+              </label>
+              <label class="radiocontainer">
+                <input id="instagramradio" class="linktype" type="radio" name="linktype" value="instagram">
+                <span class="checkbox"></span>
+                <span class="linktypet">Instagram</span>
+                <input disabled type="text" placeholder="Username" class="multchoicetxt" name="instagramname" maxlength="50">
+              </label>
+              <label class="radiocontainer">
+                <input id="customlinkradio" class="linktype" type="radio" name="linktype" value="custom">
+                <span class="checkbox"></span>
+                <span class="linktypet">Custom link</span>
+                <input disabled type="text" placeholder="https://example.com/" class="multchoicetxt" name="customlink" maxlength="200">
+              </label>
+            </div>
+            <div class="q5">
+              <h3 class="q5">5. What's your message? (optional)</h3>
+              <textarea placeholder="Your message" id="msgarea" name="msg" maxlength="80"></textarea>
+            </div>
+            <a id="pagetwobackbutton" class="button backbutton">Back</a>
+            <a id="pagetwonextbutton" class="button nextbutton">Next</a>
+          </div>
+          <!-- end page two -->
+          <!-- start page three -->
+          <div id="pagethree">
+            <h3 class="q6">6. Draw an icon (optional)</h3>
+            <a id="pagethreebackbutton" class="button backbutton">Back</a>
+            <a id="pagethreenextbutton" class="button nextbutton">Next</a>
+            <div class="drawwrapper">
+              <input type="text" id="selcol"/>
+              <canvas id="cnv" width="250" height="250"></canvas>
+              <div class="colorpickerwrapper"></div>
+            </div>
+            <input type="hidden" name="canvasdata" id="canvasdata"/>
+          </div>
+          <!-- end page three -->
+          <!-- start page four -->
+          <div id="pagefour">
+            <h3 class="q7">7. Preview your message</h3>
+
+            <div class="preview">
+              <table class="scrolltable messages">
+                <colgroup>
+                  <col class="iconcol" />
+                  <col class="namecol" />
+                  <col class="quotecol" />
+                </colgroup>
+                <tbody id="previewtable">
+                </tbody>
+              </table>
+            </div>
+
+            <a id="pagefourbackbutton" class="button backbutton">Back</a>
+            <a id="pagefournextbutton" class="button nextbutton submissionbutton">Finish</a>
+          </div>
+          <!-- end page four -->
+        </form>
+      </div>
+    </div>
+    {{template "footer.tmpl"}}
+    {{template "script.tmpl"}}
+  </body>
+</html>
+{{end}}
