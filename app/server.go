@@ -864,7 +864,7 @@ func main() {
 		Handshake: ensureOrigin(appOrigin),
 	}
 	wr := mux.NewRouter()
-	wr.Handle("/ws", ws.Handler)
+	wr.Handle("/ws", ws)
 	wr.HandleFunc("/health", rctx.healthHandler).Methods("GET")
 	wsSrv := &http.Server{
 		Handler:      secureMiddleware.Handler(wr),
