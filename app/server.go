@@ -484,7 +484,7 @@ func (rctx *RequestContext) cardHandler(w http.ResponseWriter, r *http.Request) 
 	}
 	mailBody := fmt.Sprintf("I just donated %d net%s: %s", numNets, plural, shareLink)
 	mailLink := fmt.Sprintf("mailto:?subject=%%23NetCountdown&body=%s",
-		url.QueryEscape(mailBody))
+		url.PathEscape(mailBody))
 	twitterLink := fmt.Sprintf("I just donated %d net%s %s #NetCountdown", numNets, plural, shareLink)
 	data := CardPageData{
 		PublicToken: publicToken,
@@ -571,7 +571,7 @@ func (rctx *RequestContext) thankYouHandler(w http.ResponseWriter, r *http.Reque
 	mailBody := fmt.Sprintf("I just donated some mosquito nets! %s", shareLink)
 	twitterLink := fmt.Sprintf("I just donated some mosquito nets! %s #NetCountdown", shareLink)
 	mailLink := fmt.Sprintf("mailto:?subject=%%23NetCountdown&body=%s",
-		url.QueryEscape(mailBody))
+		url.PathEscape(mailBody))
 	data := ThankYouPageData{
 		ShareLink:   shareLink,
 		MailToLink:  mailLink,

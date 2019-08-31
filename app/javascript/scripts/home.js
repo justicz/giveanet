@@ -60,6 +60,7 @@ function clearTable(t) {
   var counter = document.getElementById("counter");
   var wrapper = document.getElementById("wrapper");
   var goalType = document.getElementById("goaltype");
+  var plural = document.getElementById("plural");
   var goals = [{ num: 10000,   name: "Base Goal" },
                { num: 50000,   name: "Stretch Goal" },
                { num: 100000,  name: "Mega Goal" },
@@ -107,7 +108,13 @@ function clearTable(t) {
             }
           }
           goalType.innerText = goal.name;
-          counter.innerText = Math.max(goal.num - netsGiven, 0);
+          var remaining = Math.max(goal.num - netsGiven, 0);
+          counter.innerText = remaining;
+          if (remaining == 1) {
+            plural.style.display = "none";
+          } else {
+            plural.style.display = "inline";
+          }
           break;
         // queue entries
         case "q":
