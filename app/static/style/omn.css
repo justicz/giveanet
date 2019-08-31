@@ -486,6 +486,18 @@ a.bottombutton {
   user-select: none;
 }
 
+.pagebuttons {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagebutton {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .rightbutton, .pagebutton {
   color: #25272A;
 }
@@ -580,7 +592,7 @@ tr.noanimate {
   text-align: center;
   width: 100%;
   min-width: 375px;
-  margin: 15px auto 25px auto;
+  margin: 15px auto 5px auto;
 }
 
 .netformwrapper h3 {
@@ -1141,7 +1153,7 @@ ul.rrssb-buttons {
   }
   .pagebutton {
     width: 40%;
-    margin: 25px 15px;
+    margin: 10px 15px;
   }
   .leftbutton {
     margin-top: 20px;

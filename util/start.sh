@@ -3,5 +3,5 @@
 set -e
 
 docker-compose down
-docker volume rm millionnets_app-static || true
+docker volume rm giveanet_app-static || true
 docker-compose up
