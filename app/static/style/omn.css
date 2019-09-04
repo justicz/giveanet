@@ -929,6 +929,10 @@ h3.q4 {
   max-width: 375px;
 }
 
+#retryform {
+  display: none;
+}
+
 input[type="checkbox"]:checked ~ .switchstatus:after {
   content: 'Yes';
   color: #FFF;
