@@ -1,6 +1,6 @@
 # giveanet.org
 
-This is the code running [giveanet.org](https://giveanet.org/), a website I made to try and donate 10,000 mosquito nets to people who need them. Donations go directly to the [Against Malaria Foundation](https://againstmalaria.com), where 100% of the money is used to by nets.
+This is the code running [giveanet.org](https://giveanet.org/), a website I made to try and donate 10,000 mosquito nets to people who need them. Donations go directly to the [Against Malaria Foundation](https://againstmalaria.com), where 100% of the money is used to buy nets.
 
 ## Development Setup
 
