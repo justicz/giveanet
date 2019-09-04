@@ -60,46 +60,34 @@ type RequestContext struct {
 }
 
 func (rctx *RequestContext) homeHandler(w http.ResponseWriter, r *http.Request) {
+	// Fetch homepage params. Ignore errors so we will always serve at least
+	// default parameters
+	goal, _ := rctx.fetchHomepageGoalParams()
+
 	w.WriteHeader(http.StatusOK)
-	var useDefaultGoal, ok bool
-	var goalResp [2]string
-
-	// Fetch initial values for homepage goal counter, ignore errors
-	resp, err := rctx.redisClient.MGet(common.InitialGoalKey, common.InitialNinesKey).Result()
-	if err != nil {
-		log.Printf("homeHandler: error fetching goal keys from redis: %v", err)
-		useDefaultGoal = true
-		// Fallthrough
-	}
-
-	// Check redis response
-	if len(resp) != len(goalResp) {
-		log.Printf("homeHandler: got wrong number of keys from redis (%d)", len(resp))
-		useDefaultGoal = true
-		// Fallthrough
-	} else {
-		// Convert redis response
-		for i := 0; i < len(goalResp); i++ {
-			goalResp[i], ok = resp[i].(string)
-			if !ok {
-				log.Printf("homeHandler: got wrong type from redis")
-				useDefaultGoal = true
-				break
-			}
-		}
-	}
-
-	// If redis fails for whatever reason, still load the home page
-	if useDefaultGoal {
-		goal := common.Goals[0]
-		goalResp = [2]string{goal.Name, goal.Nines}
-	}
-
 	rctx.template.ExecuteTemplate(w, "home", HomePageData{
 		WSOrigin:     rctx.wsOrigin,
-		InitialGoal:  goalResp[0],
-		InitialNines: goalResp[1],
+		InitialGoal:  goal.Name,
+		InitialNines: goal.Nines,
 	})
+}
+
+func (rctx *RequestContext) fetchHomepageGoalParams() (goal common.Goal, err error) {
+	// Fetch the current goal from the cache
+	encoded, err := rctx.redisClient.Get(common.InitialGoalKey).Result()
+	if err != nil {
+		log.Printf("error fetching goal key from redis: %v", err)
+		return common.DefaultGoal, err
+	}
+
+	// Unmarshal the goal
+	err = json.Unmarshal([]byte(encoded), &goal)
+	if err != nil {
+		log.Printf("error unmarshalling goal from redis: %v", err)
+		return common.DefaultGoal, err
+	}
+
+	return
 }
 
 func (rctx *RequestContext) sendHandler(w http.ResponseWriter, r *http.Request) {
@@ -577,8 +565,6 @@ func (rctx *RequestContext) healthHandler(w http.ResponseWriter, r *http.Request
 }
 
 func (rctx *RequestContext) thankYouHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-
 	// Social media links
 	shareLink := fmt.Sprintf("%s/", rctx.appOrigin)
 	mailBody := fmt.Sprintf("I just donated some mosquito nets! %s", shareLink)
@@ -590,6 +576,7 @@ func (rctx *RequestContext) thankYouHandler(w http.ResponseWriter, r *http.Reque
 		MailToLink:  mailLink,
 		TwitterLink: twitterLink,
 	}
+	w.WriteHeader(http.StatusOK)
 	rctx.template.ExecuteTemplate(w, "thankyou", data)
 }
 

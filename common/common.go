@@ -18,7 +18,6 @@ const QueueUpdateChannel = "queueupdate"
 const InitialNetsGivenKey = "initialnetsgiven"
 const InitialQueueKey = "initialqueue"
 const InitialLeaderboardKey = "initialleaderboard"
-const InitialNinesKey = "initialnines"
 const InitialGoalKey = "initialgoal"
 const StartupKey = "startup"
 
@@ -28,12 +27,6 @@ const QueueCachePageFmt = "queuepg%d"
 const LeaderboardPageSize = 11
 const QueuePageSize = 7
 
-type Goal struct {
-	Name    string
-	NumNets uint64
-	Nines   string
-}
-
 var Goals = []Goal{
 	Goal{Name: "Base Goal", NumNets: 10000, Nines: "9,999"},
 	Goal{Name: "Stretch Goal", NumNets: 50000, Nines: "49,999"},
@@ -41,6 +34,8 @@ var Goals = []Goal{
 	Goal{Name: "Ultra Goal", NumNets: 500000, Nines: "499,999"},
 	Goal{Name: "Million Goal", NumNets: 1000000, Nines: "999,999"},
 }
+
+var DefaultGoal = Goals[0]
 
 func GetNetsGivenResponse(db *sqlx.DB) (resp Response, err error) {
 	// Get latest net count

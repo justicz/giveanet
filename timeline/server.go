@@ -268,10 +268,18 @@ func (tl *Timeline) updateInitialGoalCache(resp common.Response) (err error) {
 		}
 	}
 
-	err = tl.redisClient.MSet(common.InitialGoalKey, goal.Name,
-		common.InitialNinesKey, goal.Nines).Err()
+	// Serialize to json
+	encoded, err := json.Marshal(goal)
 	if err != nil {
-		return fmt.Errorf("failed to update initial goal keys %v", err)
+		log.Printf("failed to encode goal: %v", err)
+		return
+	}
+
+	// Cache in redis
+	err = tl.redisClient.Set(common.InitialGoalKey, encoded, 0).Err()
+	if err != nil {
+		log.Printf("failed to update initial goal key: %v", err)
+		return
 	}
 
 	return

@@ -29,3 +29,9 @@ type DBQueueEntry struct {
 	Played             bool       `json:"played" db:"played"`
 	Rank               *uint64    `json:"rank" db:"rank"`
 }
+
+type Goal struct {
+	Name    string `json:"name"`
+	NumNets uint64 `json:"numnets"`
+	Nines   string `json:"nines"`
+}
