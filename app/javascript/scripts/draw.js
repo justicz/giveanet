@@ -1,5 +1,18 @@
 var cnv = document.getElementById("cnv");
 var celsz = 25;
+var startedDrawing = false;
+
+(function () {
+  // Load finger touch image
+  var img = new Image();
+  img.onload = function() {
+    if (!startedDrawing) {
+      var ctx = cnv.getContext("2d");
+      ctx.drawImage(img, 0, 0, cnv.width, cnv.height);
+    }
+  }
+  img.src = "/static/image/finger.png";
+})();
 
 function initializeDrawingPage() {
   // Initialize color picker
@@ -19,7 +32,6 @@ function initializeDrawingPage() {
   });
 
   // Initialize canvas
-  var startedDrawing = false;
   function clearCanvas() {
     var ctx = cnv.getContext("2d");
     ctx.beginPath();
@@ -27,16 +39,6 @@ function initializeDrawingPage() {
     ctx.fillStyle = "#FFFFFF";
     ctx.fill();
   }
-
-  // Load finger touch image
-  var img = new Image();
-  img.onload = function() {
-    if (!startedDrawing) {
-      var ctx = cnv.getContext("2d");
-      ctx.drawImage(img, 0, 0, cnv.width, cnv.height);
-    }
-  }
-  img.src = "/static/image/finger.png";
 
   // Register event handlers
   cnv.addEventListener("mousedown",   draw);
