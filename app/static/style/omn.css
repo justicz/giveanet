@@ -202,7 +202,7 @@ p {
   border-radius: 5px 5px 0 0;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 200px;
+  height: 500px;
 }
 
 .leaderboardtitlewrap {
@@ -215,7 +215,7 @@ p {
 .leaderboardwrap {
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 150px;
+  height: 450px;
 }
 
 .scrolltable {
@@ -236,7 +236,7 @@ p {
 }
 
 .messages td {
-  height: 120px;
+  height: 90px;
   padding: 5px;
 }
 
