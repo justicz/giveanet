@@ -39,6 +39,7 @@ var dbInitStatements []string = []string{
 		timeline INTEGER UNIQUE,
 		message TEXT,
 		displayname TEXT,
+		country TEXT,
 		socialtype TEXT NOT NULL,
 		sociallink TEXT,
 		numnets INTEGER NOT NULL,

@@ -6,7 +6,7 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="/init.js?v=CACHEBUSTER"></script>
     <style>
-      #alertbox, #pagetwo, #pagethree, #pagefour, #lotsnetsbox {
+      #alertbox, #pagetwo, #pagethree, #pagefour, #pagefive, #lotsnetsbox {
           display: none;
       }
     </style>
@@ -111,7 +111,17 @@
           <!-- end page three -->
           <!-- start page four -->
           <div id="pagefour">
-            <h3 class="q7">7. Preview your message</h3>
+            <h3 class="q7">7. Choose your country (optional)</h3>
+
+            <div class="countrydropdown" id="countrydropdown"></div>
+
+            <a id="pagefourbackbutton" class="button backbutton">Back</a>
+            <a id="pagefournextbutton" class="button nextbutton">Next</a>
+          </div>
+          <!-- end page four -->
+          <!-- start page five -->
+          <div id="pagefive">
+            <h3 class="q8">8. Preview your message</h3>
 
             <div class="preview">
               <table class="scrolltable messages">
@@ -125,10 +135,10 @@
               </table>
             </div>
 
-            <a id="pagefourbackbutton" class="button backbutton">Back</a>
-            <a id="pagefournextbutton" class="button nextbutton submissionbutton">Finish</a>
+            <a id="pagefivebackbutton" class="button backbutton">Back</a>
+            <a id="pagefivenextbutton" class="button nextbutton submissionbutton">Finish</a>
           </div>
-          <!-- end page four -->
+          <!-- end page five -->
         </form>
       </div>
     </div>

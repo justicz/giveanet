@@ -55,7 +55,7 @@ function generateIconURLAndBorder(iconData) {
   return [url, border, true];
 }
 
-function makeMessageRow(iconData, name, linkURL, nets, message) {
+function makeMessageRow(iconData, name, linkURL, nets, message, country) {
   var newRow = document.createElement("tr");
 
   var imgCol = document.createElement("td");
@@ -67,6 +67,14 @@ function makeMessageRow(iconData, name, linkURL, nets, message) {
   var actionPhrase = document.createElement("span");
   nameCol.appendChild(nameLink);
   nameCol.appendChild(actionPhrase);
+
+  var flag;
+  if (country && country != "none") {
+    flag = document.createElement("div");
+    flag.classList.add("iti__flag");
+    flag.classList.add("iti__" + country);
+    flag.setAttribute("title", countryCodes[country]);
+  }
 
   var quoteCol = document.createElement("td");
   quoteCol.classList.add("quoted");
@@ -110,8 +118,11 @@ function makeMessageRow(iconData, name, linkURL, nets, message) {
   var numNetsWithCommas = nets.toLocaleString();
   var plural = nets != 1;
   var action = "sent ";
-  action += numNetsWithCommas + " net" + (plural ? "s" : "");
+  action += numNetsWithCommas + " net" + (plural ? "s" : "") + (flag ? " from" : "");
   actionPhrase.innerText = action;
+  if (flag) {
+    actionPhrase.appendChild(flag);
+  }
 
   // Fill in block quote
   quoteCol.innerText = message;
@@ -119,11 +130,9 @@ function makeMessageRow(iconData, name, linkURL, nets, message) {
   return newRow;
 }
 
-function makeLeaderRow(rank, name, linkURL, score) {
+function makeLeaderRow(rank, name, linkURL, score, country) {
   var newRow = document.createElement("tr");
-
   var rankCol = document.createElement("td");
-
   var nameCol = document.createElement("td");
   var nameLink = document.createElement("a");
   nameCol.appendChild(nameLink);
@@ -144,6 +153,15 @@ function makeLeaderRow(rank, name, linkURL, score) {
   // Fill in link
   nameLink.classList.toggle("unclickable", !linkURL);
   nameLink.href = linkURL;
+
+  // Potentially fill in country
+  if (country && country != "none") {
+    var flag = document.createElement("div");
+    flag.classList.add("iti__flag");
+    flag.classList.add("iti__" + country);
+    flag.setAttribute("title", countryCodes[country]);
+    nameCol.appendChild(flag);
+  }
 
   // Fill in score
   var scoreWithCommas = score.toLocaleString();

@@ -19,7 +19,7 @@ Messages.prototype.push = function(entries, animated) {
     this.maxIdx = entry.idx;
 
     // Build the new row
-    var newRow = makeMessageRow(entry.icon, entry.name, entry.link, entry.nets, entry.msg);
+    var newRow = makeMessageRow(entry.icon, entry.name, entry.link, entry.nets, entry.msg, entry.country);
     newRow.classList.toggle("noanimate", !animated);
 
     // Add the row to the table
@@ -42,7 +42,7 @@ Leaderboard.prototype.update = function(entries) {
     var entry = entries[i];
 
     // Build the new row
-    var newRow = makeLeaderRow(entry.rank, entry.name, entry.link, entry.points);
+    var newRow = makeLeaderRow(entry.rank, entry.name, entry.link, entry.points, entry.country);
     // Add the row to the table
     this.table.appendChild(newRow);
   }

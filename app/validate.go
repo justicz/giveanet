@@ -19,6 +19,7 @@ type FormData struct {
 	ImgData        []byte
 	SocialLinkType string
 	SocialLink     string
+	Country        string
 	Private        bool
 }
 
@@ -84,6 +85,15 @@ func validateNewMessageForm(r *http.Request) (form FormData, errors []string) {
 	if len(form.DisplayName) > maxNameLen {
 		nameTooLong := fmt.Sprintf("Display name must be no more than %d characters", maxNameLen)
 		errors = append(errors, nameTooLong)
+	}
+
+	// Parse country
+	form.Country = r.PostForm.Get("country")
+	if form.Country == "" {
+    form.Country = "none"
+	}
+	if !allowedCountries[form.Country] {
+		errors = append(errors, "Invalid country selection")
 	}
 
 	// Parse social media link

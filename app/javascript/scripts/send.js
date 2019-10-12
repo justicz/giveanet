@@ -2,6 +2,7 @@ var pageOne = document.getElementById("pageone");
 var pageTwo = document.getElementById("pagetwo");
 var pageThree = document.getElementById("pagethree");
 var pageFour = document.getElementById("pagefour");
+var pageFive = document.getElementById("pagefive");
 
 var minNets = 1;
 var maxNets = 25000;
@@ -205,15 +206,36 @@ pageThreeBackButton.addEventListener("click", function() {
 // Go to fourth page
 var pageThreeNextButton = document.getElementById("pagethreenextbutton");
 pageThreeNextButton.addEventListener("click", function() {
+  // Display next page
+  pageFour.style.display = "block";
+  pageThree.style.display = "none";
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+});
+
+// Go back to third page
+var pageFourBackButton = document.getElementById("pagefourbackbutton");
+pageFourBackButton.addEventListener("click", function() {
+  pageThree.style.display = "block";
+  pageFour.style.display = "none";
+  window.scrollTo(0, 0);
+});
+
+// Go to fifth page
+var pageFourNextButton = document.getElementById("pagefournextbutton");
+pageFourNextButton.addEventListener("click", function() {
   // Get details for preview
   var iconData = sampleCanvas();
   var linkURL = getLinkPreviewURL();
   var nets = getPreviewNumNets();
   var name = document.getElementById("displaynameinput").value;
   var message = document.getElementById("msgarea").value;
+  var countryDropdown = document.getElementById("countryselect");
+  var country = countryDropdown.options[countryDropdown.selectedIndex].value;
 
   // Generate preview row
-  var previewRow = makeMessageRow(iconData, name, linkURL, nets, message);
+  var previewRow = makeMessageRow(iconData, name, linkURL, nets, message, country);
   var previewTable = document.getElementById("previewtable");
 
   // Clear out old preview
@@ -227,12 +249,13 @@ pageThreeNextButton.addEventListener("click", function() {
   previewTable.appendChild(previewRow);
 
   // Display next page
-  pageFour.style.display = "block";
-  pageThree.style.display = "none";
+  pageFive.style.display = "block";
+  pageFour.style.display = "none";
 
   // Scroll to top
   window.scrollTo(0, 0);
 });
+
 
 function getLinkPreviewURL() {
   var nowhereRadio = document.getElementById("nowhereradio");
@@ -263,17 +286,17 @@ function getPreviewNumNets() {
   return parseInt(netSlider.value);
 }
 
-// Go back to third page
-var pageFourBackButton = document.getElementById("pagefourbackbutton");
-pageFourBackButton.addEventListener("click", function() {
-  pageThree.style.display = "block";
-  pageFour.style.display = "none";
+// Go back to fourth page
+var pageFiveBackButton = document.getElementById("pagefivebackbutton");
+pageFiveBackButton.addEventListener("click", function() {
+  pageFour.style.display = "block";
+  pageFive.style.display = "none";
   window.scrollTo(0, 0);
 });
 
 // Submit form
-var pageFourNextButton = document.getElementById("pagefournextbutton");
-pageFourNextButton.addEventListener("click", function() {
+var pageFiveNextButton = document.getElementById("pagefivenextbutton");
+pageFiveNextButton.addEventListener("click", function() {
   submitForm();
 });
 

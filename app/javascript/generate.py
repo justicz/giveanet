@@ -29,8 +29,8 @@ with open(os.path.join(scriptpath, "jsconfig.yml"), "r") as fin:
         out.append("}")
 
     # Run each dependency in the order specified
-    out.append("for (var i = 0; i < imps.length; i++) {")
-    out.append("switch (imps[i]) {")
+    out.append("for (var importIdx = 0; importIdx < imps.length; importIdx++) {")
+    out.append("switch (imps[importIdx]) {")
     for name, path in cfg["scriptnames"].items():
         if name == COMMON:
             continue

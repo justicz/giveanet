@@ -17,6 +17,7 @@ type DBQueueEntry struct {
 	Message            *string    `json:"message,omitempty" db:"message"`
 	NetPoints          uint64     `json:"netpoints,omitempty" db:"netpoints"`
 	DisplayName        *string    `json:"displayname,omitempty" db:"displayname"`
+	Country            *string    `json:"displayname,omitempty" db:"country"`
 	SocialType         string     `json:"socialtype,omitempty" db:"socialtype"`
 	SocialLink         *string    `json:"sociallink,omitempty" db:"sociallink"`
 	NumNets            uint64     `json:"numnets,omitempty" db:"numnets"`

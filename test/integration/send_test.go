@@ -36,6 +36,7 @@ func TestSendNetBasic(t *testing.T) {
 		form.Set("linktype", "twitter")
 		form.Set("twittername", "foobar4u")
 		form.Set("msg", "baz biz")
+		form.Set("country", "us")
 
 		// Generate random fake icon
 		var fakeIcon [300]byte

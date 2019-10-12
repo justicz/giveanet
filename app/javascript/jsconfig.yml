@@ -14,6 +14,7 @@ scriptnames:
   pager: ./pager.js
   odometer: ./dep/odometer.js
   colorpicker: ./dep/color-picker.js
+  flags: ./flags.js
 
 pages:
   home:
@@ -45,6 +46,7 @@ includes:
     - draw
     - validate
     - messagerow
+    - flags
     - send
   all:
     - messagerow

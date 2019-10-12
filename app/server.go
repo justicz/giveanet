@@ -378,12 +378,12 @@ func (rctx *RequestContext) payHandler(w http.ResponseWriter, r *http.Request) {
 
 	fd := formData
 	insertQuery := `INSERT INTO messages (message, displayname, numnets, ` +
-		`imgkind, imgdata, socialtype, sociallink, referral, paid, played, ` +
-		`netpoints, created) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, ` +
+		`imgkind, imgdata, socialtype, sociallink, country, referral, paid, ` +
+		`played, netpoints, created) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, ` +
 		`'f', 'f', 0, CURRENT_TIMESTAMP) RETURNING message_id`
 	row := rctx.pgClient.QueryRow(insertQuery, fd.Message, fd.DisplayName,
 		fd.NumNets, fd.ImgKind, fd.ImgData, fd.SocialLinkType, fd.SocialLink,
-		referralId)
+		fd.Country, referralId)
 
 	var messageId uint64
 	err := row.Scan(&messageId)

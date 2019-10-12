@@ -236,13 +236,13 @@ p {
 }
 
 .messages td {
-  height: 90px;
+  height: 80px;
   padding: 5px;
 }
 
 .messages td img {
-  width: 55px;
-  height: 55px;
+  width: 42px;
+  height: 42px;
   border: 2px solid transparent;
 }
 
@@ -1139,9 +1139,47 @@ ul.rrssb-buttons {
   font-size: 16px;
 }
 
+/* flags */
+
+.iti__flag {
+  background-image: url("/static/image/dep/flags.png");
+  margin-left: 5px;
+  margin-bottom: -1px;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .iti__flag {
+    background-image: url("/static/image/dep/flags@2x.png");
+  }
+}
+
+/* country picker */
+
+.countrydropdown {
+  margin: 0 auto 25px auto;
+  width: 100%;
+  max-width: 400px;
+  line-height: 20px;
+  font-size: 17px;
+}
+
+.countrydropdown select {
+  width: 100%;
+  max-width: 400px;
+  height: 40px;
+  text-align: center;
+  text-align-last: center;
+}
+
 /* mobile adjustments */
 
 @media only screen and (max-width: 800px) {
+  .messageswrap {
+    height: 300px;
+  }
+  .leaderboardwrap {
+    height: 250px;
+  }
   .stream {
     width: 375px;
   }

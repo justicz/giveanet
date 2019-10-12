@@ -55,6 +55,7 @@ type QueueEntry struct {
 	TimelineIdx int64   `json:"idx"`
 	Queue       string  `json:"q"`
 	Name        *string `json:"name,omitempty"`
+	Country     *string `json:"country,omitempty"`
 	Link        *string `json:"link,omitempty"`
 	Message     *string `json:"msg,omitempty"`
 	Icon        *string `json:"icon,omitempty"`

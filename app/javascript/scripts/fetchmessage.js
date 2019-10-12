@@ -5,7 +5,7 @@
     var msg = JSON.parse(xhr.responseText).card;
 
     // Generate preview row
-    var previewRow = makeMessageRow(msg.icon, msg.name, msg.link, msg.nets, msg.msg);
+    var previewRow = makeMessageRow(msg.icon, msg.name, msg.link, msg.nets, msg.msg, msg.country);
 
     // Clear out old preview
     var child = previewTable.firstChild;

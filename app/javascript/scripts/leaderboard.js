@@ -5,7 +5,7 @@ var errorMessage = "Error fetching leaderboard";
 var noMoreMessage = "No more entries"
 var minEntries = 11;
 var rowFromEntry = function(entry) {
-  return makeLeaderRow(entry.rank, entry.name, entry.link, entry.points);
+  return makeLeaderRow(entry.rank, entry.name, entry.link, entry.points, entry.country);
 };
 var entriesFromMessage = function(parsed) {
   return parsed.lr.l;

@@ -156,5 +156,6 @@ func DBQueueEntryToQueueEntry(origin string, dbe DBQueueEntry) (qe QueueEntry) {
 	qe.Points = dbe.NetPoints
 	qe.Name = dbe.DisplayName
 	qe.Message = dbe.Message
+	qe.Country = dbe.Country
 	return
 }
