@@ -10,3 +10,14 @@ var rowFromEntry = function(entry) {
 var entriesFromMessage = function(parsed) {
   return parsed.lr.l;
 }
+var isCountryLeaderboard = (new URL(location)).searchParams.get("t") === "country";
+
+var leaderboardBy = document.getElementById("leaderboardby");
+var leaderboardTitle = document.getElementById("leaderboardtitle");
+var leaderboardNameType = document.getElementById("leaderboardnametype");
+if (isCountryLeaderboard) {
+  leaderboardBy.innerText = "by individual donation.";
+  leaderboardTitle.innerText = "Leaderboard by Country";
+  leaderboardNameType.innerText = "Country";
+  leaderboardBy.href = "/leaderboard";
+}

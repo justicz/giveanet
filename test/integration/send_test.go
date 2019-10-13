@@ -8,21 +8,25 @@ import (
 	"math/rand"
 	"net/url"
 	"testing"
-	"time"
 
 	"github.com/justicz/giveanet/common"
 
 	"github.com/stretchr/testify/require"
 )
 
+var mapKeys []string
+
+func init() {
+	for k := range common.AllowedCountries {
+		mapKeys = append(mapKeys, k)
+	}
+}
+
 func TestSendNetBasic(t *testing.T) {
 	const maxNets = 100
 
 	// Empty messages database
 	clearDatabase(t)
-
-	// Seed random
-	rand.Seed(time.Now().UnixNano())
 
 	for i := 0; i < 50; i++ {
 		form := url.Values{}
@@ -36,7 +40,7 @@ func TestSendNetBasic(t *testing.T) {
 		form.Set("linktype", "twitter")
 		form.Set("twittername", "foobar4u")
 		form.Set("msg", "baz biz")
-		form.Set("country", "us")
+		form.Set("country", mapKeys[rand.Intn(len(mapKeys))])
 
 		// Generate random fake icon
 		var fakeIcon [300]byte

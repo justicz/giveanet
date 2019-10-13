@@ -200,6 +200,11 @@ func (rctx *RequestContext) commonPageHandler(w http.ResponseWriter, r *http.Req
 }
 
 func (rctx *RequestContext) rankingsHandler(w http.ResponseWriter, r *http.Request) {
+	lbType, ok := r.URL.Query()["t"]
+	if ok && len(lbType) == 1 && lbType[0] == "country" {
+		rctx.commonPageHandler(w, r, common.GetCountryLeaderboardResponse, common.CountryLeaderboardCachePageFmt)
+		return
+	}
 	rctx.commonPageHandler(w, r, common.GetLeaderboardResponse, common.LeaderboardCachePageFmt)
 }
 

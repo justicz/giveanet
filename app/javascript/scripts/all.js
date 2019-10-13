@@ -10,3 +10,4 @@ var rowFromEntry = function(entry) {
 var entriesFromMessage = function(parsed) {
   return parsed.qr.q;
 }
+var isCountryLeaderboard = false;

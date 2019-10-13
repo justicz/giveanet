@@ -17,7 +17,7 @@ type DBQueueEntry struct {
 	Message            *string    `json:"message,omitempty" db:"message"`
 	NetPoints          uint64     `json:"netpoints,omitempty" db:"netpoints"`
 	DisplayName        *string    `json:"displayname,omitempty" db:"displayname"`
-	Country            *string    `json:"displayname,omitempty" db:"country"`
+	Country            *string    `json:"country,omitempty" db:"country"`
 	SocialType         string     `json:"socialtype,omitempty" db:"socialtype"`
 	SocialLink         *string    `json:"sociallink,omitempty" db:"sociallink"`
 	NumNets            uint64     `json:"numnets,omitempty" db:"numnets"`
@@ -28,7 +28,12 @@ type DBQueueEntry struct {
 	StripeSessionToken string     `json:"-" db:"stripesessiontoken"`
 	Paid               bool       `json:"paid" db:"paid"`
 	Played             bool       `json:"played" db:"played"`
-	Rank               *uint64    `json:"rank" db:"rank"`
+}
+
+type DBCountryLeaderboardEntry struct {
+	NetPoints   uint64  `json:"netpoints,omitempty" db:"netpoints"`
+	DisplayName *string `json:"displayname,omitempty" db:"displayname"`
+	Country     *string `json:"country,omitempty" db:"country"`
 }
 
 type Goal struct {

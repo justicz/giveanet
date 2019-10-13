@@ -7,9 +7,10 @@
     <div class="wrapper">
       {{template "nav.tmpl"}}
       <div class="allleaderboardtitles">
-        <h3>Leaderboard</h3>
+        <h3 id="leaderboardtitle">Leaderboard</h3>
         <p>Your "Net Score" is determined by how many nets you have donated, plus the number of nets donated by anyone you refer, plus the number of nets donated by anyone they refer, and so on.</p>
         <p>To refer someone, send them the referral link shown on the "thank you" page after <a href="/send">donating a net.</a></p>
+        <p>You can also view the leaderboard <a id="leaderboardby" href="/leaderboard?t=country">by country.</a></p>
       </div>
 
       <div class="allleaderboardtitlewrap">
@@ -20,7 +21,7 @@
             <col class="lscorecol" />
           </colgroup>
           <tbody>
-            <tr class="leaderheadrow"><td>Rank</td><td>Name</td><td>Net Score</td></tr>
+            <tr class="leaderheadrow"><td>Rank</td><td id="leaderboardnametype">Name</td><td>Net Score</td></tr>
           </tbody>
         </table>
       </div>

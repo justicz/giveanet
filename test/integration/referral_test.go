@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"testing"
-	"time"
 
 	"github.com/justicz/giveanet/common"
 
@@ -22,9 +21,6 @@ func TestReferralsPaid(t *testing.T) {
 
 	// Empty messages database
 	clearDatabase(t)
-
-	// Seed random
-	rand.Seed(time.Now().UnixNano())
 
 	// Keep tally of expected net scores
 	var netScores []uint64

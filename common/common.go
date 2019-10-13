@@ -23,6 +23,7 @@ const StartupKey = "startup"
 
 const PagesToCache = 10
 const LeaderboardCachePageFmt = "loaderboardpg%d"
+const CountryLeaderboardCachePageFmt = "countryloaderboardpg%d"
 const QueueCachePageFmt = "queuepg%d"
 const LeaderboardPageSize = 11
 const QueuePageSize = 7
@@ -72,8 +73,9 @@ func GetQueueResponse(db *sqlx.DB, origin string, page uint64) (resp Response, e
 	// Build slice of last played QueuePageSize messages in the order that
 	// they were played
 	var entries []QueueEntry
-	for _, entry := range dbEntries {
+	for i, entry := range dbEntries {
 		qe := DBQueueEntryToQueueEntry(origin, entry)
+		setRank(&qe, QueuePageSize*page, uint64(i))
 		entries = append(entries, qe)
 	}
 
@@ -87,22 +89,26 @@ func GetQueueResponse(db *sqlx.DB, origin string, page uint64) (resp Response, e
 	return
 }
 
-func GetLeaderboardResponse(db *sqlx.DB, origin string, page uint64) (resp Response, err error) {
+func GetCountryLeaderboardResponse(db *sqlx.DB, origin string, page uint64) (resp Response, err error) {
 	// Fetch requested page of leaderboard. TODO(maxj): Use something better than
-	// LIMIT/OFFSET if this is too inefficient
-	var dbEntries []DBQueueEntry
-	const lbQuery = `SELECT *, ROW_NUMBER() OVER (ORDER BY netpoints DESC) ` +
-		`AS rank FROM messages WHERE paid='t' ORDER BY netpoints DESC OFFSET $1 ` +
-		`LIMIT $2`
+	// LIMIT/OFFSET if this is too inefficient. Note that for countries we sum
+	// total net donations, not netpoints, so as not to double count
+	var dbEntries []DBCountryLeaderboardEntry
+	const lbQuery = `SELECT country, SUM(numnets) as netpoints FROM messages WHERE ` +
+		`paid='t' GROUP BY country ORDER BY netpoints DESC OFFSET $1 LIMIT $2`
 	err = db.Select(&dbEntries, lbQuery, LeaderboardPageSize*page, LeaderboardPageSize)
 	if err != nil {
-		log.Printf("GetLeaderboardResponse: failed to get []DBQueueEntry: %v", err)
+		log.Printf("GetCountryLeaderboardResponse: failed to get []DBQueueEntry: %v", err)
 		return
 	}
 
 	var entries []QueueEntry
-	for _, dbe := range dbEntries {
-		qe := DBQueueEntryToQueueEntry(origin, dbe)
+	for i, dbe := range dbEntries {
+		if dbe.Country == nil || *dbe.Country == "none" {
+			continue
+		}
+		qe := DBCountryLeaderboardEntryToQueueEntry(dbe)
+		setRank(&qe, LeaderboardPageSize*page, uint64(i))
 		entries = append(entries, qe)
 	}
 
@@ -113,6 +119,50 @@ func GetLeaderboardResponse(db *sqlx.DB, origin string, page uint64) (resp Respo
 			Entries: entries,
 		}),
 	}
+	return
+}
+
+func GetLeaderboardResponse(db *sqlx.DB, origin string, page uint64) (resp Response, err error) {
+	// Fetch requested page of leaderboard. TODO(maxj): Use something better than
+	// LIMIT/OFFSET if this is too inefficient
+	var dbEntries []DBQueueEntry
+	const lbQuery = `SELECT * FROM messages WHERE paid='t' ORDER BY netpoints ` +
+		`DESC OFFSET $1 LIMIT $2`
+	err = db.Select(&dbEntries, lbQuery, LeaderboardPageSize*page, LeaderboardPageSize)
+	if err != nil {
+		log.Printf("GetLeaderboardResponse: failed to get []DBQueueEntry: %v", err)
+		return
+	}
+
+	var entries []QueueEntry
+	for i, dbe := range dbEntries {
+		qe := DBQueueEntryToQueueEntry(origin, dbe)
+		setRank(&qe, LeaderboardPageSize*page, uint64(i))
+		entries = append(entries, qe)
+	}
+
+	// Fill in response
+	resp = Response{
+		Type: LeaderboardResponseType,
+		LeaderboardResponse: &(LeaderboardResponse{
+			Entries: entries,
+		}),
+	}
+	return
+}
+
+func setRank(qe *QueueEntry, offset, idx uint64) {
+	rank := offset + idx + 1
+	qe.Rank = &rank
+}
+
+func DBCountryLeaderboardEntryToQueueEntry(le DBCountryLeaderboardEntry) (qe QueueEntry) {
+	qe.Points = le.NetPoints
+	if le.Country != nil {
+		countryName := AllowedCountries[*le.Country]
+		qe.Name = &countryName
+	}
+	qe.Country = le.Country
 	return
 }
 
@@ -151,7 +201,6 @@ func DBQueueEntryToQueueEntry(origin string, dbe DBQueueEntry) (qe QueueEntry) {
 	qe.Icon = &encodedIcon
 
 	// Some fields we can just copy over
-	qe.Rank = dbe.Rank
 	qe.Nets = dbe.NumNets
 	qe.Points = dbe.NetPoints
 	qe.Name = dbe.DisplayName

@@ -43,10 +43,11 @@ function fetchPage(page, pushState) {
   // Disable submission buttons
   setEnabled(backButton, false);
   setEnabled(nextButton, false);
+  var params = isCountryLeaderboard ? "?t=country" : "";
 
   // Update page URL (if not first fetch)
   if (pushState) {
-    window.history.pushState({}, null, stateBase + page);
+    window.history.pushState({}, null, stateBase + page + params);
   }
 
   var xhr = new XMLHttpRequest();
@@ -100,7 +101,7 @@ function fetchPage(page, pushState) {
     }
 
   }
-  xhr.open("GET", requestBase + page);
+  xhr.open("GET", requestBase + page + params);
   xhr.send();
 }
 

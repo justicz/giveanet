@@ -287,7 +287,9 @@ func (tl *Timeline) updateInitialGoalCache(resp common.Response) (err error) {
 }
 
 func (tl *Timeline) invalidateCachedPages() (err error) {
-	pageFmts := []string{common.LeaderboardCachePageFmt, common.QueueCachePageFmt}
+	pageFmts := []string{common.LeaderboardCachePageFmt,
+		common.QueueCachePageFmt,
+		common.CountryLeaderboardCachePageFmt}
 	keysToDelete := make([]string, 0, len(pageFmts)*common.PagesToCache)
 	for _, pageFmt := range pageFmts {
 		for i := 0; i < common.PagesToCache; i++ {

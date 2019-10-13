@@ -90,9 +90,9 @@ func validateNewMessageForm(r *http.Request) (form FormData, errors []string) {
 	// Parse country
 	form.Country = r.PostForm.Get("country")
 	if form.Country == "" {
-    form.Country = "none"
+		form.Country = "none"
 	}
-	if !allowedCountries[form.Country] {
+	if common.AllowedCountries[form.Country] == "" {
 		errors = append(errors, "Invalid country selection")
 	}
 
