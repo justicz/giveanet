@@ -236,7 +236,7 @@ p {
 }
 
 .messages td {
-  height: 80px;
+  height: 85px;
   padding: 5px;
 }
 
@@ -292,7 +292,7 @@ td a.unclickable, td a.unclickable:visited {
 
 /* block quote */
 
-.quoted {
+td.quoted {
   padding: 10px;
 }
 
