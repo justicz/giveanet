@@ -12,8 +12,6 @@ services:
       - MN_WEBHOOK_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
       - MN_POSTGRES_URL=postgres://nets:pw@millionnets-postgres-mndev:5432/millionnets?sslmode=disable
       - MN_CSRF_SECRET=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-      - MN_APP_USERNAME=giveanet
-      - MN_APP_PASSWORD=giveanetpw
   millionnets-app:
     build:
       context: .

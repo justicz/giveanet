@@ -1,8 +1,5 @@
 FROM nginx:stable
 
-# Copy basic auth info
-COPY ./htpasswd /etc/nginx/htpasswd
-
 # Copy specific configuration
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 

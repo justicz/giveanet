@@ -21,8 +21,6 @@ import (
 const appDevHost = "http://millionnets-app-proxy"
 const timelineDevHost = "http://millionnets-timeline-proxy"
 
-var basicAuthDevUsername = os.Getenv("MN_APP_USERNAME")
-var basicAuthDevPassword = os.Getenv("MN_APP_PASSWORD")
 var csrfDevSecret = os.Getenv("MN_CSRF_SECRET")
 var webhookDevSecret = os.Getenv("MN_WEBHOOK_SECRET")
 
@@ -80,7 +78,6 @@ func postForm(url string, form url.Values, cookies []*http.Cookie) (*http.Respon
 	}
 
 	// Add headers
-	req.SetBasicAuth(basicAuthDevUsername, basicAuthDevPassword)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	// Do request
