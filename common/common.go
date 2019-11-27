@@ -105,7 +105,8 @@ func GetCountryLeaderboardResponse(db *sqlx.DB, origin string, page uint64) (res
 	var entries []QueueEntry
 	for i, dbe := range dbEntries {
 		if dbe.Country == nil || *dbe.Country == "none" {
-			continue
+			empty := ""
+			dbe.Country = &empty
 		}
 		qe := DBCountryLeaderboardEntryToQueueEntry(dbe)
 		setRank(&qe, LeaderboardPageSize*page, uint64(i))
