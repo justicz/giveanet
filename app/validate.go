@@ -76,6 +76,7 @@ func validateNewMessageForm(r *http.Request) (form FormData, errors []string) {
 
 	// Don't parse other fields if private
 	if form.Private {
+		form.Country = "none"
 		form.SocialLinkType = common.SocialLinkTypeNowhere
 		return
 	}
