@@ -4,8 +4,9 @@ services:
     build:
       context: .
       dockerfile: docker/app.Dockerfile
-    expose:
-      - "3021"
+    ports:
+      - "127.0.0.1:3021:3021"
+      - "127.0.0.1:3024:3024"
     depends_on:
       - "millionnets-redis-mndev"
       - "millionnets-postgres-mndev"
@@ -17,19 +18,10 @@ services:
     build:
       context: .
       dockerfile: docker/timeline.Dockerfile
-    expose:
-      - "3029"
+    ports:
+      - "127.0.0.1:3029:3029"
     env_file:
       - production.app.env
-  millionnets-single-proxy:
-    build: ./single-proxy
-    ports:
-      - "80:80"
-    depends_on:
-      - "millionnets-app"
-      - "millionnets-timeline"
-    volumes:
-      - app-static:/var/www/static
   millionnets-redis-mndev:
     image: "redis:5.0-buster"
   millionnets-postgres-mndev:
