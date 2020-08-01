@@ -26,7 +26,6 @@ WORKDIR /app/app
 # Build & minify js
 RUN python /app/app/javascript/generate.py
 RUN cd /app/app/static/script && uglifyjs ./main.js --compress --mangle toplevel \
-    --source-map="url='/static/script/main.min.js.map'" \
     --output ./main.min.js
 
 # Build server
