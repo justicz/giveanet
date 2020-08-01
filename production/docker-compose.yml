@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  millionnets-app:
+    build:
+      context: .
+      dockerfile: docker/app.Dockerfile
+    expose:
+      - "3021"
+    depends_on:
+      - "millionnets-redis-mndev"
+      - "millionnets-postgres-mndev"
+    volumes:
+      - app-static:/app/app/static
+    env_file:
+      - production.app.env
+  millionnets-timeline:
+    build:
+      context: .
+      dockerfile: docker/timeline.Dockerfile
+    expose:
+      - "3029"
+    env_file:
+      - production.app.env
+  millionnets-single-proxy:
+    build: ./single-proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - "millionnets-app"
+      - "millionnets-timeline"
+    volumes:
+      - app-static:/var/www/static
+  millionnets-redis-mndev:
+    image: "redis:5.0-buster"
+  millionnets-postgres-mndev:
+    image: "postgres:11.4"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - production.app.env
+volumes:
+  pgdata:
+  app-static:

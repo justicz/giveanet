@@ -13,4 +13,4 @@ docker-compose build
 ./util/start.sh
 ```
 
-Integration tests will run automatically. Comment out the `testing` service in `docker-compose.yml` to prevent this.
+Uncomment out the `testing` service in `docker-compose.yml` to run integration tests.

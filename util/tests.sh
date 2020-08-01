@@ -5,7 +5,7 @@ set -e
 echo "Waiting for app server to start up to run integration tests"
 while true
 do
-  STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://millionnets-app-proxy/health) || true
+  STATUS=$(curl -s -o /dev/null -w '%{http_code}' http://millionnets-single-proxy/health) || true
   if [ $STATUS -eq 200 ]; then
     break
   else

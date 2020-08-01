@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const appDevHost = "http://millionnets-app-proxy"
-const timelineDevHost = "http://millionnets-timeline-proxy"
+const appDevHost = "http://millionnets-single-proxy"
+const timelineDevHost = "http://millionnets-single-proxy"
 
 var csrfDevSecret = os.Getenv("MN_CSRF_SECRET")
 var webhookDevSecret = os.Getenv("MN_WEBHOOK_SECRET")
