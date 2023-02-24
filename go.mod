@@ -13,7 +13,7 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/stripe/stripe-go v62.5.0+incompatible
 	github.com/unrolled/secure v1.0.1
-	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586
-	golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	golang.org/x/net v0.7.0
 	google.golang.org/appengine v1.6.1 // indirect
 )
